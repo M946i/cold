@@ -42,7 +42,7 @@ public class UserController {
             // 获取客户端 IP 地址
             String ipAddress = Objects.requireNonNull(exchange.getLocalAddr());
             // 记录用户登录历史
-            userHistoryService.insert(form.getUsername(), LocalDateTime.now().toString(), ipAddress);
+            userHistoryService.insertUserHistory(form.getUsername(), LocalDateTime.now().toString(), ipAddress);
             //生成一个token
             String token = TokenGenerator.generateValue();
 

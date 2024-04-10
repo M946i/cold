@@ -1,7 +1,8 @@
 package com.example.user.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
 import com.example.user.entity.UserHistoryEntity;
+import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -14,7 +15,7 @@ public interface UserHistoryDao extends BaseMapper<UserHistoryEntity> {
     List<UserHistoryEntity> selectByUserName(String username);
 
     @Insert("insert into user_history(username,login_time,ip) value(#{username},#{login_time},#{ip})")
-    int insert(String username,String login_time,String ip);
+    int insertUserHistory(String username,String login_time,String ip);
 
     @Select("SELECT id, username, DATE_FORMAT(login_time, '%Y-%m-%d %H:%i:%s') as loginTime ,ip "
             + "FROM user_history "

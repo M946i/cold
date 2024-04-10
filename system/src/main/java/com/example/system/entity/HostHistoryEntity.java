@@ -8,32 +8,25 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.sql.Timestamp;
 
-@Table("meter")
+
+@Table("host_history")
 @Data
 @EntityScan
-public class MeterEntity {
+public class HostHistoryEntity {
     @Id("id")
     private Integer id;
+    @Column("host_id")
+    private Integer host_id;
     @Column("company_number")
     private String company_number;
     @Column("warehouse_number")
     private String warehouse_number;
+    @Column("host_name")
+    private String host_name;
     @Column("host_number")
     private String host_number;
-    @Column("meter_number")
-    private String meter_number;
-    @Column("min_temperature")
-    private Double min_temperature;
-    @Column("max_temperature")
-    private Double max_temperature;
-    @Column("min_humidity")
-    private Double min_humidity;
-    @Column("max_humidity")
-    private Double max_humidity;
-    @Column("meter_status")
-    private String meter_status;
+    @Column("host_status")
+    private String status;
     @Column("create_time")
     private Timestamp create_time;
-    @Column("update_time")
-    private Timestamp update_time;
 }

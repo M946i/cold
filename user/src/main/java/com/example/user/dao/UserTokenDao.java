@@ -1,7 +1,8 @@
 package com.example.user.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
 import com.example.user.entity.UserTokenEntity;
+import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

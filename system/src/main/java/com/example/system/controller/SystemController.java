@@ -51,7 +51,7 @@ public class SystemController {
     public Map<String, Object> addCompany(@RequestBody CompanyEntity companyEntity) {
         HashMap<String, Object> result = new HashMap<>();
         Object o = companyService
-                .insert(
+                .insertCompany(
                         companyEntity.getCompany_name(),
                         companyEntity.getCompany_number(),
                         companyEntity.getCompany_manager_name(),
@@ -66,7 +66,7 @@ public class SystemController {
     public Map<String, Object> addWarehouse(@RequestBody WarehouseEntity warehouseEntity) {
         HashMap<String,Object> result = new HashMap<>();
         Object o = warehouseService
-                .insert(
+                .insertWarehouse(
                         warehouseEntity.getCompany_number(),
                         warehouseEntity.getWarehouse_name(),
                         warehouseEntity.getWarehouse_number(),
@@ -85,7 +85,7 @@ public class SystemController {
     public Map<String, Object> addHost(@RequestBody HostEntity hostEntity) {
         HashMap<String, Object> result = new HashMap<>();
         Object o = hostService
-                .insert(
+                .insertHost(
                         hostEntity.getCompany_number(),
                         hostEntity.getWarehouse_number(),
                         hostEntity.getHost_name(),
@@ -99,7 +99,7 @@ public class SystemController {
     public Map<String, Object> addMeter(@RequestBody MeterEntity meterEntity) {
         HashMap<String, Object> result = new HashMap<>();
         Object o = meterService
-                .insert(
+                .insertMeter(
                         meterEntity.getCompany_number(),
                         meterEntity.getWarehouse_number(),
                         meterEntity.getHost_number(),
