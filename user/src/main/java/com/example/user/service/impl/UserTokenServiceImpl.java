@@ -19,8 +19,8 @@ public class UserTokenServiceImpl extends ServiceImpl<UserTokenDao, UserTokenEnt
     }
 
     @Override
-    public int loadUserToken(String username , String token, String expireTime, String updateTime) {
-        return userTokenDao.loadUserToken(username, token, expireTime, updateTime);
+    public int loadUserToken(String username , String token, String expire_time, String update_time) {
+        return userTokenDao.loadUserToken(username, token, expire_time, update_time);
     }
 
     @Override
@@ -29,13 +29,13 @@ public class UserTokenServiceImpl extends ServiceImpl<UserTokenDao, UserTokenEnt
     }
 
     @Override
-    public int reloadUserToken( String token, String expireTime, String updateTime,String username) {
-        return userTokenDao.reloadUserToken(token, expireTime, updateTime,username);
+    public int reloadUserToken( String token, String expire_time, String update_time,String username) {
+        return userTokenDao.reloadUserToken(token, expire_time, update_time,username);
     }
 
     @Override
-    public void setUserTokenExpireTimeByToken(String token, String expireTime) {
-        userTokenDao.setUserTokenExpireTimeByToken(token, expireTime);
+    public void setUserTokenExpireTimeByToken(String token, String expire_time) {
+        userTokenDao.setUserTokenExpireTimeByToken(token, expire_time);
     }
 
 

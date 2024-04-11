@@ -1,10 +1,4 @@
--- auto-generated definition
-create schema cold collate utf8mb4_0900_ai_ci;
-
-use cold;
-
--- auto-generated definition
-create table company
+create table cold.company
 (
     id                    int auto_increment
         primary key,
@@ -15,13 +9,12 @@ create table company
     company_address       varchar(50)                         not null,
     company_type          varchar(4)                          not null,
     create_time           timestamp default CURRENT_TIMESTAMP null,
-    update_time           timestamp default CURRENT_TIMESTAMP null
+    update_time           timestamp default CURRENT_TIMESTAMP null,
+    constraint company_number
+        unique (company_number)
 );
 
-INSERT INTO cold.company (id, company_name, company_number, company_manager_name, company_manager_phone, company_address, company_type, create_time, update_time) VALUES (1, 'xx运输', '001', '李老板', '100001', 'jms', '私企', '2024-04-09 22:55:09', '2024-04-09 22:55:09');
-
--- auto-generated definition
-create table host
+create table cold.host
 (
     id               int auto_increment
         primary key,
@@ -31,11 +24,25 @@ create table host
     host_number      varchar(20)                          not null,
     host_status      varchar(6) default '正常'            null,
     create_time      timestamp  default CURRENT_TIMESTAMP null,
-    update_time      timestamp  default CURRENT_TIMESTAMP null
+    update_time      timestamp  default CURRENT_TIMESTAMP null,
+    constraint host_number
+        unique (host_number)
 );
 
--- auto-generated definition
-create table meter
+create table cold.host_history
+(
+    id               bigint auto_increment
+        primary key,
+    host_id          int                                 not null,
+    company_number   varchar(20)                         null,
+    warehouse_number varchar(20)                         null,
+    host_name        varchar(20)                         null,
+    host_number      varchar(20)                         null,
+    host_status      varchar(6)                          null,
+    create_time      timestamp default CURRENT_TIMESTAMP null
+);
+
+create table cold.meter
 (
     id               int auto_increment
         primary key,
@@ -49,11 +56,30 @@ create table meter
     max_humidity     double                               null,
     meter_status     varchar(6) default '正常'            null,
     create_time      timestamp  default CURRENT_TIMESTAMP null,
-    update_time      timestamp  default CURRENT_TIMESTAMP null
+    update_time      timestamp  default CURRENT_TIMESTAMP null,
+    constraint meter_number
+        unique (meter_number)
 );
 
--- auto-generated definition
-create table user
+create table cold.meter_history
+(
+    id                  bigint auto_increment
+        primary key,
+    meter_id            int                                 not null,
+    company_number      varchar(20)                         null,
+    warehouse_number    varchar(20)                         null,
+    host_number         varchar(20)                         null,
+    min_temperature     double                              not null,
+    max_temperature     double                              not null,
+    current_temperature double                              not null,
+    min_humidity        double                              not null,
+    max_humidity        double                              not null,
+    current_humidity    double                              not null,
+    meter_status        varchar(6)                          null,
+    create_time         timestamp default CURRENT_TIMESTAMP null
+);
+
+create table cold.user
 (
     id       int auto_increment
         primary key,
@@ -61,10 +87,7 @@ create table user
     password varchar(100) null
 );
 
-INSERT INTO cold.user (id, username, password) VALUES (1, 'root', '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2');
-
--- auto-generated definition
-create table user_history
+create table cold.user_history
 (
     id         int auto_increment
         primary key,
@@ -73,8 +96,7 @@ create table user_history
     ip         varchar(20) null
 );
 
--- auto-generated definition
-create table user_token
+create table cold.user_token
 (
     user_id     bigint       not null
         primary key,
@@ -86,8 +108,7 @@ create table user_token
         unique (token)
 );
 
--- auto-generated definition
-create table warehouse
+create table cold.warehouse
 (
     id                      int auto_increment
         primary key,
@@ -103,6 +124,9 @@ create table warehouse
     latitude                decimal(10, 8)                       null,
     longitude               decimal(10, 8)                       null,
     create_time             timestamp  default CURRENT_TIMESTAMP null,
-    update_time             timestamp  default CURRENT_TIMESTAMP null
+    update_time             timestamp  default CURRENT_TIMESTAMP null,
+    constraint warehouse_number
+        unique (warehouse_number)
 );
 
+INSERT INTO cold.user (id, username, password) VALUES (1, 'root', '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2');

@@ -1,13 +1,12 @@
 package com.example.system.controller;
 
+import com.example.system.dao.HostHistoryDao;
+import com.example.system.dao.MeterHistoryDao;
 import com.example.system.entity.CompanyEntity;
 import com.example.system.entity.HostEntity;
 import com.example.system.entity.MeterEntity;
 import com.example.system.entity.WarehouseEntity;
-import com.example.system.service.CompanyService;
-import com.example.system.service.HostService;
-import com.example.system.service.MeterService;
-import com.example.system.service.WarehouseService;
+import com.example.system.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +25,10 @@ public class SystemController {
     HostService hostService;
     @Autowired
     MeterService meterService;
+    @Autowired
+    HostHistoryService hostHistoryService;
+    @Autowired
+    MeterHistoryService meterHistoryService;
 
     @GetMapping("/getAllCompany")
     public List<CompanyEntity> getAllCompany() {
@@ -62,9 +65,10 @@ public class SystemController {
                 ) == 1 ? result.put("status", "ok") : result.put("status", "error");
         return result;
     }
+
     @PostMapping("/addWarehouse")
     public Map<String, Object> addWarehouse(@RequestBody WarehouseEntity warehouseEntity) {
-        HashMap<String,Object> result = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
         Object o = warehouseService
                 .insertWarehouse(
                         warehouseEntity.getCompany_number(),
@@ -78,9 +82,10 @@ public class SystemController {
                         warehouseEntity.getLatitude(),
                         warehouseEntity.getLongitude()
 
-                        )==1?result.put("status","ok"):result.put("status","error");
+                ) == 1 ? result.put("status", "ok") : result.put("status", "error");
         return result;
     }
+
     @PostMapping("/addHost")
     public Map<String, Object> addHost(@RequestBody HostEntity hostEntity) {
         HashMap<String, Object> result = new HashMap<>();
@@ -91,7 +96,7 @@ public class SystemController {
                         hostEntity.getHost_name(),
                         hostEntity.getHost_number()
 
-                ) == 1 ? result.put("status", "ok"):result.put("status","error");
+                ) == 1 ? result.put("status", "ok") : result.put("status", "error");
         return result;
     }
 
@@ -109,7 +114,8 @@ public class SystemController {
                         meterEntity.getMin_humidity(),
                         meterEntity.getMax_humidity()
 
-                )==1?result.put("status","ok"):result.put("status","error");
+                ) == 1 ? result.put("status", "ok") : result.put("status", "error");
+
         return result;
     }
 }

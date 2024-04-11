@@ -10,8 +10,8 @@ import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserTokenDao extends BaseMapper<UserTokenEntity> {
-    @Insert("insert into user_token(username,token,user_token.expire_time,update_time) value (#{username},#{token},#{expire_time},#{update_time})")
-    int loadUserToken(String username,String token, String expireTime, String updateTime);
+    @Insert("insert into user_token(username,token,expire_time,update_time) value (#{username},#{token},#{expire_time},#{update_time})")
+    int loadUserToken(String username,String token, String expire_time, String update_time);
     
     @Select("select user_id, username,token,DATE_FORMAT(expire_time, '%Y-%m-%d %H:%i:%s') as expire_time,DATE_FORMAT(update_time, '%Y-%m-%d %H:%i:%s') as update_time from user_token where username=#{username}")
     UserTokenEntity getUserToken(String username);

@@ -13,6 +13,7 @@ import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -42,16 +43,16 @@ public class UserController {
             // 获取客户端 IP 地址
             String ipAddress = Objects.requireNonNull(exchange.getLocalAddr());
             // 记录用户登录历史
-            userHistoryService.insertUserHistory(form.getUsername(), LocalDateTime.now().toString(), ipAddress);
+            userHistoryService.insertUserHistory(form.getUsername(), Timestamp.valueOf(new Date().toString()), ipAddress);
             //生成一个token
             String token = TokenGenerator.generateValue();
 
             //当前时间
             Date now = new Date();
             //过期时间
-            Date expireTime = new Date(now.getTime() + EXPIRE * 1000);
+            Date expire_time = new Date(now.getTime() + EXPIRE * 1000);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            int i = userTokenService.reloadUserToken( token, simpleDateFormat.format(expireTime),simpleDateFormat.format(now),userEntity.getUsername());
+            int i = userTokenService.reloadUserToken( token, simpleDateFormat.format(expire_time),simpleDateFormat.format(now),userEntity.getUsername());
             if (i == 1) {
                 result.put("status","ok");
                 result.put("token",token);
@@ -80,20 +81,14 @@ public class UserController {
         return result;
     }
     @PostMapping("/checkToken")
-    public Map<String,String> checkToken(@Param("token") String token) throws ParseException {
+    public Map<String,String> checkToken(@Param("token") String token) {
         UserTokenEntity userToken = userTokenService.getUserTokenExpireTimeByToken(token);
         HashMap<String, String> result = new HashMap<>();
         result.put("status","false");
         if (userToken!=null) {
             Date nowDate = new Date();
-            SimpleDateFormat simple = new SimpleDateFormat("yyyyMMddHHmmss");
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String nowString = simple.format(nowDate);
-            long now = Long.parseLong(nowString);
-            Date parse = simpleDateFormat.parse(String.valueOf(userToken.getExpire_time()));
-            String expireString = simple.format(parse);
-            long expireTime = Long.parseLong(expireString);
-            if (expireTime-now<0) {
+            Date parse = userToken.getExpire_time();
+            if (nowDate.after(parse)) {
                 return result;
             }
             result.replace("status","true");

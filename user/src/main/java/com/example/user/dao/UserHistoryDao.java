@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Mapper
@@ -15,10 +16,8 @@ public interface UserHistoryDao extends BaseMapper<UserHistoryEntity> {
     List<UserHistoryEntity> selectByUserName(String username);
 
     @Insert("insert into user_history(username,login_time,ip) value(#{username},#{login_time},#{ip})")
-    int insertUserHistory(String username,String login_time,String ip);
+    int insertUserHistory(String username, Timestamp login_time, String ip);
 
-    @Select("SELECT id, username, DATE_FORMAT(login_time, '%Y-%m-%d %H:%i:%s') as loginTime ,ip "
-            + "FROM user_history "
-            + "WHERE id = (SELECT id FROM user_history order by id desc limit 2,1)")
+    @Select("SELECT id, username,login_time,ip FROM user_history WHERE id = (SELECT id FROM user_history order by id desc limit 2,1)")
     UserHistoryEntity selectBeforeLogin();
 }

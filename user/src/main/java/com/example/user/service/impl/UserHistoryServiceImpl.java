@@ -8,6 +8,7 @@ import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -20,8 +21,8 @@ public class UserHistoryServiceImpl extends ServiceImpl<UserHistoryDao, UserHist
     }
 
     @Override
-    public int insertUserHistory(String userName,String login_time,String ip) {
-        return userHistoryDao.insertUserHistory(userName,login_time,ip);
+    public int insertUserHistory(String username, Timestamp login_time, String ip) {
+        return userHistoryDao.insertUserHistory(username,login_time,ip);
     }
 
     @Override
