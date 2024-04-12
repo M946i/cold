@@ -9,5 +9,12 @@ import java.util.List;
 @Service
 public interface CompanyService extends IService<CompanyEntity> {
     List<CompanyEntity> getAllCompany();
-    int insertCompany(String company_name, String company_number, String company_manager_name, String company_manager_phone, String company_address , String company_type);
+
+    int insertCompany(String company_name, String company_number, String company_manager_name, String company_manager_phone, String company_address, String company_type);
+
+    CompanyEntity getCompanyById(Integer id);
+
+    int updateCompanyById(CompanyEntity companyEntity);
+
+    int deleteCompanyByCompany_number(String company_number);
 }

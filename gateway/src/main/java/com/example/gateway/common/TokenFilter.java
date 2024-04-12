@@ -27,7 +27,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
                 return exchange.getResponse().setComplete();
             }
             //Post http://127.0.0.1:8088/checkToken?token=token
-            String requestUrl = "http://localhost:8088/user/checkToken?token="+token;
+            String requestUrl = "http://localhost:8088/user/checkToken?token=" + token;
             // 发送post请求
 
             try {

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class HostServiceImpl extends ServiceImpl<HostDao,HostEntity> implements HostService {
+public class HostServiceImpl extends ServiceImpl<HostDao, HostEntity> implements HostService {
     @Autowired
     HostDao hostDao;
 
@@ -22,5 +22,20 @@ public class HostServiceImpl extends ServiceImpl<HostDao,HostEntity> implements 
     @Override
     public int insertHost(String company_number, String warehouse_number, String host_name, String host_number) {
         return hostDao.insertHost(company_number, warehouse_number, host_name, host_number);
+    }
+
+    @Override
+    public HostEntity getHostById(Integer id) {
+        return hostDao.selectHostById(id);
+    }
+
+    @Override
+    public int updateHostById(HostEntity hostEntity) {
+        return hostDao.updateHostById(hostEntity);
+    }
+
+    @Override
+    public int deleteHostByHost_number(String host_number) {
+        return hostDao.deleteHostByHost_number(host_number);
     }
 }

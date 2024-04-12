@@ -25,7 +25,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("user")
 public class UserController {
-    private static final int EXPIRE = 12*3600;
+    private static final int EXPIRE = 12 * 3600;
     @Autowired
     private UserService userService;
     @Autowired
@@ -35,7 +35,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public Map<String,Object> login(@RequestBody UserEntity form, HttpServletRequest exchange) {
+    public Map<String, Object> login(@RequestBody UserEntity form, HttpServletRequest exchange) throws ParseException {
         HashMap<String, Object> result = new HashMap<>();
         UserEntity userEntity = userService.selectByUserName(form.getUsername());
 
@@ -43,7 +43,12 @@ public class UserController {
             // 获取客户端 IP 地址
             String ipAddress = Objects.requireNonNull(exchange.getLocalAddr());
             // 记录用户登录历史
-            userHistoryService.insertUserHistory(form.getUsername(), Timestamp.valueOf(new Date().toString()), ipAddress);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Timestamp loginTime = new Timestamp(simpleDateFormat.parse(simpleDateFormat.format(new Date())).getTime());
+
+            userHistoryService.insertUserHistory(form.getUsername(), loginTime, ipAddress);
+
             //生成一个token
             String token = TokenGenerator.generateValue();
 
@@ -51,47 +56,46 @@ public class UserController {
             Date now = new Date();
             //过期时间
             Date expire_time = new Date(now.getTime() + EXPIRE * 1000);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            int i = userTokenService.reloadUserToken( token, simpleDateFormat.format(expire_time),simpleDateFormat.format(now),userEntity.getUsername());
+
+            int i = userTokenService.reloadUserToken(token, simpleDateFormat.format(expire_time), simpleDateFormat.format(now), userEntity.getUsername());
             if (i == 1) {
-                result.put("status","ok");
-                result.put("token",token);
-            }else result.put("status","error");
-            return result;
+                result.put("status", "ok");
+            }
         }
-        result.put("status","error");
         return result;
     }
+
     @PostMapping("/logout")
-    public Map<String,Object> logout(@RequestHeader (value = "token") String token){
+    public Map<String, Object> logout(@RequestHeader(value = "token") String token) {
         userTokenService.setUserTokenExpireTimeByToken(token, LocalDateTime.now().toString());
         Map<String, Object> result = new HashMap<>();
-        result.put("status","ok");
+        result.put("status", "ok");
         return result;
     }
 
     @GetMapping("/userinfo")
-    public Map<String,String> userinfo(){
+    public Map<String, String> userinfo() {
         UserHistoryEntity history = userHistoryService.selectBeforeLogin();
         HashMap<String, String> result = new HashMap<>();
-        if (history!=null) {
+        if (history != null) {
             result.put("上次登录时间", String.valueOf(history.getLogin_time()));
-            result.put("上次登录ip",history.getIp());
+            result.put("上次登录ip", history.getIp());
         }
         return result;
     }
+
     @PostMapping("/checkToken")
-    public Map<String,String> checkToken(@Param("token") String token) {
+    public Map<String, String> checkToken(@Param("token") String token) {
         UserTokenEntity userToken = userTokenService.getUserTokenExpireTimeByToken(token);
         HashMap<String, String> result = new HashMap<>();
-        result.put("status","false");
-        if (userToken!=null) {
+        result.put("status", "false");
+        if (userToken != null) {
             Date nowDate = new Date();
             Date parse = userToken.getExpire_time();
             if (nowDate.after(parse)) {
                 return result;
             }
-            result.replace("status","true");
+            result.replace("status", "true");
         }
         return result;
     }

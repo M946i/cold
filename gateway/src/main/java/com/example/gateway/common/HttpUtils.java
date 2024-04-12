@@ -22,10 +22,11 @@ public class HttpUtils {
         }
         return jsonResult;
     }
-    public static HashMap<String,String> mapStringToMap(String str){
-        str = str.substring(1, str.length()-1);
+
+    public static HashMap<String, String> mapStringToMap(String str) {
+        str = str.substring(1, str.length() - 1);
         String[] strs = str.split(",");
-        HashMap<String,String> map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<>();
         for (String string : strs) {
             String[] keyValue = string.split(":");
             if (keyValue.length < 2) {

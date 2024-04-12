@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface HostHistoryDao extends BaseMapper<HostHistoryEntity>{
+public interface HostHistoryDao extends BaseMapper<HostHistoryEntity> {
     @Select("SELECT * FROM host_history WHERE create_time >= CURDATE() - INTERVAL 1 DAY AND create_time < CURDATE()")
     List<HostHistoryEntity> selectLastDayHostHistory();
 }

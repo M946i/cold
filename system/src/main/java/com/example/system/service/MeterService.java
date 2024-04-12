@@ -10,6 +10,12 @@ import java.util.List;
 @Service
 public interface MeterService extends IService<MeterEntity> {
     List<MeterEntity> getAllMeter();
+
     int insertMeter(String company_number, String warehouse_number, String host_number, String meter_number, Double min_temperature, Double max_temperature, Double min_humidity, Double max_humidity);
 
+    MeterEntity getMeterById(Integer id);
+
+    int updateMeterById(MeterEntity meterEntity);
+
+    int deleteMeterByMeter_number(String meter_number);
 }

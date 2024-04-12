@@ -22,7 +22,22 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseDao, WarehouseEnt
     }
 
     @Override
-    public int insertWarehouse(String company_number,String warehouse_number, String warehouse_name, String warehouse_manager_name, String warehouse_manager_phone, String warehouse_size, String warehouse_address, String warehouse_type, BigDecimal latitude, BigDecimal longitude) {
-        return warehouseDao.insertWarehouse(company_number,warehouse_number, warehouse_name, warehouse_manager_name, warehouse_manager_phone, warehouse_size, warehouse_address, warehouse_type, latitude, longitude);
+    public int insertWarehouse(String company_number, String warehouse_number, String warehouse_name, String warehouse_manager_name, String warehouse_manager_phone, String warehouse_size, String warehouse_address, String warehouse_type, BigDecimal latitude, BigDecimal longitude) {
+        return warehouseDao.insertWarehouse(company_number, warehouse_number, warehouse_name, warehouse_manager_name, warehouse_manager_phone, warehouse_size, warehouse_address, warehouse_type, latitude, longitude);
+    }
+
+    @Override
+    public WarehouseEntity getWarehouseById(Integer id) {
+        return warehouseDao.selectWarehouseById(id);
+    }
+
+    @Override
+    public int updateWarehouseById(WarehouseEntity warehouseEntity) {
+        return warehouseDao.updateWarehouseById(warehouseEntity);
+    }
+
+    @Override
+    public int deleteWarehouseByWarehouse_number(String warehouse_number) {
+        return warehouseDao.deleteWarehouseByWarehouse_number(warehouse_number);
     }
 }

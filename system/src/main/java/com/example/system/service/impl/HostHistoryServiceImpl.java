@@ -13,8 +13,14 @@ import java.util.List;
 public class HostHistoryServiceImpl extends ServiceImpl<HostHistoryDao, HostHistoryEntity> implements HostHistoryService {
     @Autowired
     HostHistoryDao hostHistoryDao;
+
     @Override
     public List<HostHistoryEntity> selectLastDayHostHistory() {
         return hostHistoryDao.selectLastDayHostHistory();
+    }
+
+    @Override
+    public int insertHostHistory(HostHistoryEntity hostHistoryEntity) {
+        return hostHistoryDao.insert(hostHistoryEntity);
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Mapper
 public interface UserHistoryDao extends BaseMapper<UserHistoryEntity> {
-    @Select("select * from user_history where username=#{username}" )
+    @Select("select * from user_history where username=#{username}")
     List<UserHistoryEntity> selectByUserName(String username);
 
     @Insert("insert into user_history(username,login_time,ip) value(#{username},#{login_time},#{ip})")

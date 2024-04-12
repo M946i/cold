@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 public interface UserHistoryService extends IService<UserHistoryEntity> {
     List<UserHistoryEntity> selectByUserName(String username);
+
     int insertUserHistory(String username, Timestamp login_time, String ip);
 
     UserHistoryEntity selectBeforeLogin();

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements UserService {
     @Autowired
     UserDao coldDao;
+
     @Override
     public UserEntity selectByUserName(String username) {
         // 使用父类的baseMapper方法获取ColdDao的代理对象

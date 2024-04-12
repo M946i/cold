@@ -9,5 +9,12 @@ import java.util.List;
 @Service
 public interface HostService extends IService<HostEntity> {
     List<HostEntity> getAllHost();
+
     int insertHost(String company_number, String warehouse_number, String host_name, String host_number);
+
+    HostEntity getHostById(Integer id);
+
+    int updateHostById(HostEntity hostEntity);
+
+    int deleteHostByHost_number(String host_number);
 }

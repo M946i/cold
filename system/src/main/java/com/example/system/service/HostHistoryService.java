@@ -9,4 +9,6 @@ import java.util.List;
 @Service
 public interface HostHistoryService extends IService<HostHistoryEntity> {
     List<HostHistoryEntity> selectLastDayHostHistory();
+
+    int insertHostHistory(HostHistoryEntity hostHistoryEntity);
 }

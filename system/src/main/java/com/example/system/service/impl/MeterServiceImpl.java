@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MeterServiceImpl extends ServiceImpl<MeterDao,MeterEntity> implements MeterService {
+public class MeterServiceImpl extends ServiceImpl<MeterDao, MeterEntity> implements MeterService {
     @Autowired
     MeterDao meterDao;
 
@@ -22,5 +22,20 @@ public class MeterServiceImpl extends ServiceImpl<MeterDao,MeterEntity> implemen
     @Override
     public int insertMeter(String company_number, String warehouse_number, String host_number, String meter_number, Double min_temperature, Double max_temperature, Double min_humidity, Double max_humidity) {
         return meterDao.insertMeter(company_number, warehouse_number, host_number, meter_number, min_temperature, max_temperature, min_humidity, max_humidity);
+    }
+
+    @Override
+    public MeterEntity getMeterById(Integer id) {
+        return meterDao.selectMeterById(id);
+    }
+
+    @Override
+    public int updateMeterById(MeterEntity meterEntity) {
+        return meterDao.updateMeterById(meterEntity);
+    }
+
+    @Override
+    public int deleteMeterByMeter_number(String meter_number) {
+        return meterDao.deleteMeterByMeter_number(meter_number);
     }
 }

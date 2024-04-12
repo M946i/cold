@@ -35,8 +35,7 @@ public class TokenGenerator {
             algorithm.update(param.getBytes());
             byte[] messageDigest = algorithm.digest();
             return toHexString(messageDigest);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             logger.error("生成Token失败");
         }

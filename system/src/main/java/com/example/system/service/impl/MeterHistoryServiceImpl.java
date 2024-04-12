@@ -18,4 +18,11 @@ public class MeterHistoryServiceImpl extends ServiceImpl<MeterHistoryDao, MeterH
     public List<MeterHistoryEntity> selectLastDayMeterHistory() {
         return meterHistoryDao.selectLastDayMeterHistory();
     }
+
+    @Override
+    public int addMeterHistory(MeterHistoryEntity meterHistoryEntity) {
+        return meterHistoryDao.insert(meterHistoryEntity);
+    }
+
+
 }

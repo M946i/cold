@@ -15,6 +15,7 @@ import java.util.List;
 public class UserHistoryServiceImpl extends ServiceImpl<UserHistoryDao, UserHistoryEntity> implements UserHistoryService {
     @Autowired
     UserHistoryDao userHistoryDao;
+
     @Override
     public List<UserHistoryEntity> selectByUserName(String username) {
         return userHistoryDao.selectByUserName(username);
@@ -22,7 +23,7 @@ public class UserHistoryServiceImpl extends ServiceImpl<UserHistoryDao, UserHist
 
     @Override
     public int insertUserHistory(String username, Timestamp login_time, String ip) {
-        return userHistoryDao.insertUserHistory(username,login_time,ip);
+        return userHistoryDao.insertUserHistory(username, login_time, ip);
     }
 
     @Override

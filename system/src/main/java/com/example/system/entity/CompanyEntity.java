@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.sql.Timestamp;
 
-@Table( "company")
+@Table("company")
 @Data
 @EntityScan
 public class CompanyEntity {
