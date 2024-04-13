@@ -1,21 +1,21 @@
 package com.example.system.controller;
 
-import com.example.system.entity.CompanyEntity;
-import com.example.system.entity.HostEntity;
-import com.example.system.entity.MeterEntity;
-import com.example.system.entity.WarehouseEntity;
+import com.example.system.entity.*;
 import com.example.system.service.*;
+import com.example.system.utils.CsvUtils;
+
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("system")
@@ -236,4 +236,107 @@ public class SystemController {
             result.replace("status", "ok");
         return result;
     }
+
+    @GetMapping("/getHostHistoryLastDay")
+    public List<HostHistoryEntity> getHostHistoryLastDay(){
+        return hostHistoryService.selectLastDayHostHistory();
+    }
+
+    @GetMapping("/getMeterHistoryLastDay")
+    public List<MeterHistoryEntity> getMeterHistoryLastDay(){
+        return meterHistoryService.selectLastDayMeterHistory();
+    }
+
+    /*-------------------------------------------------------------------------------*/
+    /**
+     * @Description 下载CSV
+     **/
+    @GetMapping("/download/host_history")
+    public String downloadAllHostHistoryCSV(HttpServletResponse response) throws IOException {
+        String[] head =  hostHistoryService.getHead();
+        List<HostHistoryEntity> values = hostHistoryService.getValues();
+        ArrayList<String[]> strings = new ArrayList<>();
+        for (HostHistoryEntity value : values) {
+            strings.add(value.toStrings());
+        }
+
+        String fileName = hostHistoryService.getName();
+
+        File file = CsvUtils.makeTempCSV(fileName, head, strings);
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + fileName +".csv");
+        CsvUtils.downloadFile(response, file);
+        return null;
+    }
+    @GetMapping("/download/meter_history")
+    public String downloadAllMeterHistoryCSV(HttpServletResponse response) throws IOException {
+        String[] head =  meterHistoryService.getHead();
+        List<MeterHistoryEntity> values = meterHistoryService.getValues();
+        ArrayList<String[]> strings = new ArrayList<>();
+        for (MeterHistoryEntity value : values) {
+            strings.add(value.toStrings());
+        }
+
+        String fileName = meterHistoryService.getName();
+
+        File file = CsvUtils.makeTempCSV(fileName, head, strings);
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + fileName +".csv");
+        CsvUtils.downloadFile(response, file);
+        return null;
+    }
+    /**
+     * @Description 上传CSV
+     * @Param file
+     **/
+    @PostMapping(value = "/upload/host_history")
+    public String uploadHostHistory(@RequestParam("file") MultipartFile multipartFile) {
+        try {
+            //上传内容不能为空
+            if (multipartFile.isEmpty()) {
+                return "500";
+            }
+            File file = CsvUtils.uploadFile(multipartFile);
+            List<List<String>> host_history = CsvUtils.readCSV(file.getPath(), 8);
+            System.out.println(host_history);
+            assert host_history != null;
+            for (List<String> strings : host_history) {
+                HostHistoryEntity hostHistory = new HostHistoryEntity();
+                hostHistory.input(strings);
+                hostHistoryService.addHostHistory(hostHistory);
+            }
+            file.delete();
+            return "200";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "500";
+    }
+
+    @PostMapping(value = "/upload/meter_history")
+    public String uploadMeterHistory(@RequestParam("file") MultipartFile multipartFile) {
+        try {
+            //上传内容不能为空
+            if (multipartFile.isEmpty()) {
+                return "500";
+            }
+            File file = CsvUtils.uploadFile(multipartFile);
+            List<List<String>> meter_history = CsvUtils.readCSV(file.getPath(), 13);
+            assert meter_history != null;
+            for (List<String> strings : meter_history) {
+                MeterHistoryEntity meterHistory = new MeterHistoryEntity();
+                meterHistory.input(strings);
+                meterHistoryService.addMeterHistory(meterHistory);
+            }
+            file.delete();
+            return "200";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "500";
+    }
+    /*-------------------------------------------------------------------------------*/
+
 }

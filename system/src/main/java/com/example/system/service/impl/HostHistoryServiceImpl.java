@@ -20,7 +20,22 @@ public class HostHistoryServiceImpl extends ServiceImpl<HostHistoryDao, HostHist
     }
 
     @Override
-    public int insertHostHistory(HostHistoryEntity hostHistoryEntity) {
-        return hostHistoryDao.insert(hostHistoryEntity);
+    public String[] getHead() {
+        return hostHistoryDao.getHead();
+    }
+
+    @Override
+    public List<HostHistoryEntity> getValues() {
+        return hostHistoryDao.getValues();
+    }
+
+    @Override
+    public String getName() {
+        return "host_history";
+    }
+
+    @Override
+    public int addHostHistory(HostHistoryEntity hostHistoryEntity) {
+        return hostHistoryDao.addHostHistory(hostHistoryEntity);
     }
 }

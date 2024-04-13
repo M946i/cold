@@ -20,8 +20,23 @@ public class MeterHistoryServiceImpl extends ServiceImpl<MeterHistoryDao, MeterH
     }
 
     @Override
+    public String[] getHead() {
+        return meterHistoryDao.getHead();
+    }
+
+    @Override
+    public List<MeterHistoryEntity> getValues() {
+        return meterHistoryDao.getValues();
+    }
+
+    @Override
+    public String getName() {
+        return "meter_history";
+    }
+
+    @Override
     public int addMeterHistory(MeterHistoryEntity meterHistoryEntity) {
-        return meterHistoryDao.insert(meterHistoryEntity);
+        return meterHistoryDao.addMeterHistory(meterHistoryEntity);
     }
 
 

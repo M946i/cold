@@ -9,6 +9,8 @@ import java.util.List;
 @Service
 public interface MeterHistoryService extends IService<MeterHistoryEntity> {
     List<MeterHistoryEntity> selectLastDayMeterHistory();
-
+    String[] getHead();
+    List<MeterHistoryEntity> getValues();
+    String getName();
     int addMeterHistory(MeterHistoryEntity meterHistoryEntity);
 }
