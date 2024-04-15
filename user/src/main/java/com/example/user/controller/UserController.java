@@ -37,6 +37,7 @@ public class UserController {
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody UserEntity form, HttpServletRequest exchange) throws ParseException {
         HashMap<String, Object> result = new HashMap<>();
+
         UserEntity userEntity = userService.selectByUserName(form.getUsername());
 
         if (userEntity != null && (userEntity.getPassword()).equals(new Sha256Hash(form.getPassword()).toString())) {

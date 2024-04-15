@@ -131,3 +131,4 @@ create table cold.warehouse
 
 INSERT INTO cold.user (id, username, password)
 VALUES (1, 'root', '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2');
+INSERT INTO cold.user_token (user_id, username, token, expire_time, update_time) VALUES (1, 'root', '53bcfd962ed8703f32c955c9fd1a5e9a', '2024-04-16 12:04:23', '2024-04-16 00:04:23');

@@ -3,7 +3,6 @@ package com.example.system.controller;
 import com.example.system.entity.*;
 import com.example.system.service.*;
 import com.example.system.utils.CsvUtils;
-
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -214,8 +213,7 @@ public class SystemController {
     public Map<String, String> deleteWarehouseByWarehouseNumber(@Param("warehouse_number") String warehouse_number) {
         HashMap<String, String> result = new HashMap<>();
         result.put("status", "error");
-        if (warehouseService.deleteWarehouseByWarehouse_number(warehouse_number) == 1)
-            result.replace("status", "ok");
+        if (warehouseService.deleteWarehouseByWarehouse_number(warehouse_number) == 1) result.replace("status", "ok");
         return result;
     }
 
@@ -223,8 +221,7 @@ public class SystemController {
     public Map<String, String> deleteHostByHostNumber(@Param("host_number") String host_number) {
         HashMap<String, String> result = new HashMap<>();
         result.put("status", "error");
-        if (hostService.deleteHostByHost_number(host_number) == 1)
-            result.replace("status", "ok");
+        if (hostService.deleteHostByHost_number(host_number) == 1) result.replace("status", "ok");
         return result;
     }
 
@@ -232,28 +229,28 @@ public class SystemController {
     public Map<String, String> deleteMeterByMeterNumber(@Param("meter_number") String meter_number) {
         HashMap<String, String> result = new HashMap<>();
         result.put("status", "error");
-        if (meterService.deleteMeterByMeter_number(meter_number) == 1)
-            result.replace("status", "ok");
+        if (meterService.deleteMeterByMeter_number(meter_number) == 1) result.replace("status", "ok");
         return result;
     }
 
     @GetMapping("/getHostHistoryLastDay")
-    public List<HostHistoryEntity> getHostHistoryLastDay(){
+    public List<HostHistoryEntity> getHostHistoryLastDay() {
         return hostHistoryService.selectLastDayHostHistory();
     }
 
     @GetMapping("/getMeterHistoryLastDay")
-    public List<MeterHistoryEntity> getMeterHistoryLastDay(){
+    public List<MeterHistoryEntity> getMeterHistoryLastDay() {
         return meterHistoryService.selectLastDayMeterHistory();
     }
 
     /*-------------------------------------------------------------------------------*/
+
     /**
      * @Description 下载CSV
      **/
     @GetMapping("/download/host_history")
     public String downloadAllHostHistoryCSV(HttpServletResponse response) throws IOException {
-        String[] head =  hostHistoryService.getHead();
+        String[] head = hostHistoryService.getHead();
         List<HostHistoryEntity> values = hostHistoryService.getValues();
         ArrayList<String[]> strings = new ArrayList<>();
         for (HostHistoryEntity value : values) {
@@ -265,13 +262,14 @@ public class SystemController {
         File file = CsvUtils.makeTempCSV(fileName, head, strings);
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
-        response.setHeader("Content-Disposition", "attachment;fileName=" + fileName +".csv");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + fileName + ".csv");
         CsvUtils.downloadFile(response, file);
         return null;
     }
+
     @GetMapping("/download/meter_history")
     public String downloadAllMeterHistoryCSV(HttpServletResponse response) throws IOException {
-        String[] head =  meterHistoryService.getHead();
+        String[] head = meterHistoryService.getHead();
         List<MeterHistoryEntity> values = meterHistoryService.getValues();
         ArrayList<String[]> strings = new ArrayList<>();
         for (MeterHistoryEntity value : values) {
@@ -283,10 +281,11 @@ public class SystemController {
         File file = CsvUtils.makeTempCSV(fileName, head, strings);
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
-        response.setHeader("Content-Disposition", "attachment;fileName=" + fileName +".csv");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + fileName + ".csv");
         CsvUtils.downloadFile(response, file);
         return null;
     }
+
     /**
      * @Description 上传CSV
      * @Param file
