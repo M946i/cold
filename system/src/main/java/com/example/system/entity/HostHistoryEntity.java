@@ -7,6 +7,9 @@ import lombok.Data;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -55,7 +58,7 @@ public class HostHistoryEntity {
         this.create_time = Timestamp.valueOf(create_time);
     }
 
-    public void input(List<String> strings) {
+    public void input(List<String> strings) throws ParseException {
         if (strings == null || strings.size() < 8) {
             throw new IllegalArgumentException("参数列表长度不正确");
         }
@@ -67,6 +70,8 @@ public class HostHistoryEntity {
         this.host_name = strings.get(4);
         this.host_number = strings.get(5);
         this.host_status = strings.get(6);
-        this.create_time = Timestamp.valueOf(strings.get(7));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = dateFormat.parse(strings.get(7));
+        this.create_time = new Timestamp(date.getTime());
     }
 }

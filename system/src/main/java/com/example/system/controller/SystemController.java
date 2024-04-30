@@ -12,9 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("system")
@@ -53,7 +56,7 @@ public class SystemController {
             company.setCompany_manager_name(form.getCompany_manager_name());
             company.setCompany_manager_phone(form.getCompany_manager_phone());
             company.setCompany_type(form.getCompany_type());
-            company.setUpdate_time(new Timestamp(new Date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now())).getTime()));
+            company.setUpdate_time(Timestamp.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(8))));
             if (companyService.updateCompanyById(company) == 1) {
                 result.replace("status", "ok");
             }
@@ -88,8 +91,8 @@ public class SystemController {
             warehouse.setWarehouse_type(form.getWarehouse_type());
             warehouse.setWarehouse_status(form.getWarehouse_status());
             warehouse.setLatitude(form.getLatitude());
-            warehouse.setLatitude(form.getLongitude());
-            warehouse.setUpdate_time(new Timestamp(new Date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now())).getTime()));
+            warehouse.setLongitude(form.getLongitude());
+            warehouse.setUpdate_time(Timestamp.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(8))));
             if (warehouseService.updateWarehouseById(warehouse) == 1) {
                 result.replace("status", "ok");
             }
@@ -108,7 +111,7 @@ public class SystemController {
         return hostService.getHostById(id);
     }
 
-    @PostMapping("updateHostById")
+    @PostMapping("/updateHostById")
     public Map<String, String> updateHostById(@RequestBody HostEntity form) {
         HostEntity host = hostService.getHostById(form.getId());
         HashMap<String, String> result = new HashMap<>();
@@ -119,7 +122,7 @@ public class SystemController {
             host.setHost_name(form.getHost_name());
             host.setHost_number(form.getHost_number());
             host.setHost_status(form.getHost_status());
-            host.setUpdate_time(new Timestamp(new Date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now())).getTime()));
+            host.setUpdate_time(Timestamp.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(8))));
             if (hostService.updateHostById(host) == 1) {
                 result.replace("status", "ok");
             }
@@ -152,7 +155,7 @@ public class SystemController {
             meter.setMin_humidity(form.getMin_humidity());
             meter.setMax_humidity(form.getMax_humidity());
             meter.setMeter_status(form.getMeter_status());
-            meter.setUpdate_time(new Timestamp(new Date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now())).getTime()));
+            meter.setUpdate_time(Timestamp.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(8))));
             if (meterService.updateMeterById(meter) == 1) {
                 result.replace("status", "ok");
             }
@@ -237,7 +240,21 @@ public class SystemController {
     public List<HostHistoryEntity> getHostHistoryLastDay() {
         return hostHistoryService.selectLastDayHostHistory();
     }
+    @GetMapping("/getMeterHistoryByHostNumber")
+    public List<MeterHistoryEntity> getMeterHistoryByHostNumber(@Param("host_number") String host_number){
+        List<MeterHistoryEntity> meterHistory = meterHistoryService.selectLastDayMeterHistory();
+        if (meterHistory == null) {
+            return meterHistory;
+        }
+        List<MeterHistoryEntity> result = new ArrayList<>();
+        for (MeterHistoryEntity meterHistoryEntity : meterHistory) {
+            if (meterHistoryEntity.getHost_number().equals(host_number)) {
+                result.add(meterHistoryEntity);
+            }
+        }
 
+        return result;
+    }
     @GetMapping("/getMeterHistoryLastDay")
     public List<MeterHistoryEntity> getMeterHistoryLastDay() {
         return meterHistoryService.selectLastDayMeterHistory();

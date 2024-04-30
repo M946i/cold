@@ -1,3 +1,4 @@
+create database cold character set utf8mb4;
 create table cold.company
 (
     id                    int auto_increment
@@ -121,8 +122,8 @@ create table cold.warehouse
     warehouse_address       varchar(50)                          null,
     warehouse_type          varchar(6)                           null,
     warehouse_status        varchar(6) default '正常'            null,
-    latitude                decimal(10, 8)                       null,
-    longitude               decimal(10, 8)                       null,
+    latitude                decimal(10, 7)                       null,
+    longitude               decimal(10, 7)                       null,
     create_time             timestamp  default CURRENT_TIMESTAMP null,
     update_time             timestamp  default CURRENT_TIMESTAMP null,
     constraint warehouse_number

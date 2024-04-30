@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface HostHistoryDao extends BaseMapper<HostHistoryEntity> {
-    @Select("SELECT * FROM host_history WHERE create_time >= CURDATE() - INTERVAL 1 DAY AND create_time < CURDATE()")
+    @Select("SELECT * FROM host_history WHERE DATE(create_time) = (SELECT DATE(MAX(create_time)) FROM host_history)")
     List<HostHistoryEntity> selectLastDayHostHistory();
     @Select("select * from host_history")
     List<HostHistoryEntity> getValues();

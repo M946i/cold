@@ -10,9 +10,8 @@ import java.util.List;
 
 @Mapper
 public interface MeterHistoryDao extends BaseMapper<MeterHistoryEntity> {
-    @Select("SELECT * FROM meter_history WHERE create_time >= CURDATE() - INTERVAL 1 DAY AND create_time < CURDATE()")
+    @Select("SELECT * FROM meter_history WHERE DATE(create_time) = (SELECT DATE(MAX(create_time)) FROM meter_history)")
     List<MeterHistoryEntity> selectLastDayMeterHistory();
-
     @Select("select * from meter_history")
     List<MeterHistoryEntity> getValues();
     @Select("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'meter_history' ORDER BY ORDINAL_POSITION")

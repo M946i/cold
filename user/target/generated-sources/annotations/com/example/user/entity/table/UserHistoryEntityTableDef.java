@@ -1,0 +1,33 @@
+package com.example.user.entity.table;
+
+import com.mybatisflex.core.query.QueryColumn;
+import com.mybatisflex.core.table.TableDef;
+
+// Auto generate by mybatis-flex, do not modify it.
+public class UserHistoryEntityTableDef extends TableDef {
+
+    public static final UserHistoryEntityTableDef USER_HISTORY_ENTITY = new UserHistoryEntityTableDef();
+
+    public final QueryColumn ID = new QueryColumn(this, "id");
+
+    public final QueryColumn IP = new QueryColumn(this, "ip");
+
+    public final QueryColumn USERNAME = new QueryColumn(this, "username");
+
+    public final QueryColumn LOGIN_TIME = new QueryColumn(this, "login_time");
+
+    /**
+     * 所有字段。
+     */
+    public final QueryColumn ALL_COLUMNS = new QueryColumn(this, "*");
+
+    /**
+     * 默认字段，不包含逻辑删除或者 large 等字段。
+     */
+    public final QueryColumn[] DEFAULT_COLUMNS = new QueryColumn[]{ID, IP, USERNAME, LOGIN_TIME};
+
+    public UserHistoryEntityTableDef() {
+        super("", "user_history");
+    }
+
+}

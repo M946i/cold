@@ -59,8 +59,10 @@ public class UserController {
             Date expire_time = new Date(now.getTime() + EXPIRE * 1000);
 
             int i = userTokenService.reloadUserToken(token, simpleDateFormat.format(expire_time), simpleDateFormat.format(now), userEntity.getUsername());
+            UserTokenEntity userToken = userTokenService.getUserTokenByUserName(form.getUsername());
             if (i == 1) {
                 result.put("status", "ok");
+                result.put("token",userToken.getToken());
             }
         }
         return result;
@@ -68,6 +70,7 @@ public class UserController {
 
     @PostMapping("/logout")
     public Map<String, Object> logout(@RequestHeader(value = "token") String token) {
+        System.out.println(token);
         userTokenService.setUserTokenExpireTimeByToken(token, LocalDateTime.now().toString());
         Map<String, Object> result = new HashMap<>();
         result.put("status", "ok");
